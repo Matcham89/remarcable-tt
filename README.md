@@ -433,7 +433,8 @@ to run and review in an isolated account.
 - `terraform init -backend=false`
 - `terraform validate`
 - `terraform plan`
-- `terraform apply` on pushes to `main` and manual runs from `main`
+- `terraform apply` on pushes to `main` and manual runs from `main` when the
+  plan has changes
 
 The workflow uses GitHub OIDC instead of long-lived AWS keys. It also uses GitHub
 Actions concurrency plus Terraform state locking so two applies do not run
