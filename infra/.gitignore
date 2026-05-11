@@ -1,0 +1,25 @@
+# Terraform downloaded providers and modules
+.terraform/
+
+# State files (managed by S3 backend)
+*.tfstate
+*.tfstate.backup
+
+# Plan output files (may contain sensitive values)
+*.tfplan
+
+# Local variable overrides — never commit personal overrides
+*.tfvars.local
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Commit .terraform.lock.hcl files for reproducible provider installs
+
+# Crash logs
+crash.log
+crash.*.log
+
+# macOS
+.DS_Store
