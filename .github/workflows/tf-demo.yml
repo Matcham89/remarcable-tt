@@ -57,14 +57,9 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Install Terraform
-        run: |
-          curl -fsSLo terraform.zip "https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip"
-          curl -fsSLo terraform_SHA256SUMS "https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_SHA256SUMS"
-          grep "terraform_${TF_VERSION}_linux_amd64.zip" terraform_SHA256SUMS | sha256sum -c -
-          unzip -q terraform.zip
-          sudo install -m 0755 terraform /usr/local/bin/terraform
-          terraform version
+      - uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
 
       - uses: aws-actions/configure-aws-credentials@v5.1.1
         with:
@@ -109,14 +104,9 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Install Terraform
-        run: |
-          curl -fsSLo terraform.zip "https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip"
-          curl -fsSLo terraform_SHA256SUMS "https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_SHA256SUMS"
-          grep "terraform_${TF_VERSION}_linux_amd64.zip" terraform_SHA256SUMS | sha256sum -c -
-          unzip -q terraform.zip
-          sudo install -m 0755 terraform /usr/local/bin/terraform
-          terraform version
+      - uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
 
       - uses: aws-actions/configure-aws-credentials@v5.1.1
         with:
