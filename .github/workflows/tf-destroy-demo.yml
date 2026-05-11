@@ -28,7 +28,7 @@ jobs:
   destroy:
     name: Destroy
     runs-on: ubuntu-latest
-    if: github.event.inputs.confirm == 'destroy'
+    if: github.event.inputs.confirm == 'destroy' && github.ref == 'refs/heads/main'
     environment: demo
 
     steps:
@@ -49,4 +49,3 @@ jobs:
 
       - name: Destroy
         run: terraform destroy -auto-approve
-
