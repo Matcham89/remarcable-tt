@@ -21,29 +21,55 @@ needing the original app code.
 
 ```mermaid
 flowchart LR
-  users[Users] --> cf[CloudFront]
-  cf --> s3[Private S3 bucket\nReact assets]
+  users[Users]
 
-  users --> alb[Application Load Balancer]
-  alb --> api[ECS Fargate API\nprivate subnets]
+  subgraph public["Public entry points"]
+    cf[CloudFront distribution]
+    alb[Application Load Balancer]
+  end
 
-  api --> sqs[SQS jobs queue]
-  sqs --> worker[ECS Fargate workers\nprivate subnets]
-  sqs --> dlq[Dead-letter queue]
+  subgraph private_app["Private ECS services"]
+    api[ECS Fargate API\nNginx placeholder in demo\nreal API image later]
+    worker[ECS Fargate worker\nNginx placeholder in demo\nreal worker image later]
+  end
 
-  api --> proxy[RDS Proxy]
-  worker --> proxy
-  proxy --> aurora[Aurora PostgreSQL]
+  subgraph data["Data and async processing"]
+    s3[Private S3 frontend bucket\nassets uploaded outside Terraform]
+    sqs[SQS jobs queue]
+    dlq[Dead-letter queue]
+    proxy[RDS Proxy]
+    aurora[Aurora PostgreSQL]
+    secrets[Secrets Manager\ninjected into ECS tasks]
+  end
 
-  api --> secrets[Secrets Manager]
-  worker --> secrets
+  subgraph ops["Operations"]
+    logs[CloudWatch logs, metrics, alarms]
+    nat[NAT Gateway\npreallocated Elastic IP]
+    partners[External partners\nIP allowlists]
+  end
 
-  api --> logs[CloudWatch logs, metrics, alarms]
+  users --> cf
+  cf --> s3
+  users --> alb
+  alb --> api
+
+  api -. intended app flow .-> sqs
+  worker -. intended app polling .-> sqs
+  sqs --> dlq
+
+  api -. intended DB access .-> proxy
+  worker -. intended DB access .-> proxy
+  proxy --> aurora
+
+  secrets --> api
+  secrets --> worker
+
+  api --> logs
   worker --> logs
 
-  api --> nat[NAT Gateway\nstable Elastic IP]
-  worker --> nat
-  nat --> partners[External partners\nIP allowlists]
+  api -. intended outbound calls .-> nat
+  worker -. intended outbound calls .-> nat
+  nat --> partners
 ```
 
 ## Why ECS Fargate
