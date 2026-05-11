@@ -1,0 +1,42 @@
+# Terraform working directories
+.terraform/
+.terraform.d/
+
+# Terraform state files
+*.tfstate
+*.tfstate.*
+
+# Terraform plans may contain sensitive values
+*.tfplan
+tfplan
+plan.out
+
+# Terraform variable files often contain secrets
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+!*.tfvars.sample
+
+# Local override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Terraform crash logs and CLI config
+crash.log
+crash.*.log
+.terraformrc
+terraform.rc
+
+# Commit .terraform.lock.hcl for reproducible provider selections.
+
+# JetBrains IDEs
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# OS files
+.DS_Store
+Thumbs.db
