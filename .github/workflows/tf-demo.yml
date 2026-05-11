@@ -65,7 +65,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::342677169881:role/github-actions-role
           aws-region: ${{ env.AWS_REGION }}
-          role-duration-seconds: 7200
+          role-duration-seconds: 3600
 
       - name: Init
         run: terraform init
@@ -112,7 +112,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::342677169881:role/github-actions-role
           aws-region: ${{ env.AWS_REGION }}
-          role-duration-seconds: 7200
+          role-duration-seconds: 3600
 
       - uses: actions/download-artifact@v7
         with:
