@@ -61,7 +61,7 @@ jobs:
         with:
           terraform_version: ${{ env.TF_VERSION }}
 
-      - uses: aws-actions/configure-aws-credentials@v5.1.1
+      - uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: arn:aws:iam::342677169881:role/github-actions-role
           aws-region: ${{ env.AWS_REGION }}
@@ -97,7 +97,7 @@ jobs:
     needs: plan
     if: |
       github.ref == 'refs/heads/main' &&
-      github.event_name == 'push' &&
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch') &&
       needs.plan.outputs.has_changes == 'true'
     environment: demo
 
@@ -108,7 +108,7 @@ jobs:
         with:
           terraform_version: ${{ env.TF_VERSION }}
 
-      - uses: aws-actions/configure-aws-credentials@v5.1.1
+      - uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: arn:aws:iam::342677169881:role/github-actions-role
           aws-region: ${{ env.AWS_REGION }}

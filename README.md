@@ -433,11 +433,15 @@ to run and review in an isolated account.
 - `terraform init -backend=false`
 - `terraform validate`
 - `terraform plan`
-- `terraform apply` on pushes to `main`
+- `terraform apply` on pushes to `main` and manual runs from `main`
 
 The workflow uses GitHub OIDC instead of long-lived AWS keys. It also uses GitHub
 Actions concurrency plus Terraform state locking so two applies do not run
 against the same environment at the same time.
+
+`.github/workflows/tf-destroy-demo.yml` is a separate manual-only workflow for
+destroying the demo stack. It requires the `confirm` input to be exactly
+`destroy` before it runs `terraform destroy -auto-approve`.
 
 ## Desired Application CI/CD
 
